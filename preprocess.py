@@ -39,14 +39,15 @@ from DataReader.depth_render import Render      # noqa: E402
 # ---------------------------------------------------------------------------
 # Configuration
 # ---------------------------------------------------------------------------
-SUBSET_DIR  = os.path.join(SCRIPT_DIR, 'cloth3d++_subset')
-OUT_DIR     = os.path.join(SCRIPT_DIR, 'preprocessed_data')
-IMAGE_DIR   = os.path.join(OUT_DIR, 'image')
-DEPTH_DIR   = os.path.join(OUT_DIR, 'depth')
+SUBSET_DIR = os.path.join(SCRIPT_DIR, 'cloth3d++_subset')
+OUT_DIR = os.path.join(SCRIPT_DIR, 'preprocessed_data')
+IMAGE_DIR = os.path.join(OUT_DIR, 'image')
+DEPTH_DIR = os.path.join(OUT_DIR, 'depth')
 
 CROP_MARGIN = 10   # extra pixels around the subject bounding box
-MAX_DEPTH   = 10   # background depth threshold used in demo notebook
+MAX_DEPTH = 10   # background depth threshold used in demo notebook
 
+os.makedirs(OUT_DIR, exist_ok=True)
 os.makedirs(IMAGE_DIR, exist_ok=True)
 os.makedirs(DEPTH_DIR, exist_ok=True)
 
@@ -131,7 +132,7 @@ def fmt_duration(seconds):
     """Format a duration in seconds as HH:MM:SS."""
     seconds = int(seconds)
     h, rem = divmod(seconds, 3600)
-    m, s   = divmod(rem, 60)
+    m, s = divmod(rem, 60)
     return f'{h:02d}:{m:02d}:{s:02d}'
 
 
@@ -141,9 +142,9 @@ def fmt_duration(seconds):
 # ---------------------------------------------------------------------------
 def process_sequence(folder, seq_idx, total_seqs, global_start):
     sample = folder
-    saved  = []
+    saved = []
 
-    rgb_path  = os.path.join(SUBSET_DIR, sample, sample + '.mkv')
+    rgb_path = os.path.join(SUBSET_DIR, sample, sample + '.mkv')
     segm_path = os.path.join(SUBSET_DIR, sample, sample + '_segm.mkv')
 
     if not os.path.isfile(rgb_path) or not os.path.isfile(segm_path):
@@ -164,8 +165,8 @@ def process_sequence(folder, seq_idx, total_seqs, global_start):
         seg_cap.release()
         return saved
 
-    n_total  = len(at_edge_flags)
-    n_valid  = sum(1 for f in at_edge_flags if not f)
+    n_total = len(at_edge_flags)
+    n_valid = sum(1 for f in at_edge_flags if not f)
 
     # ------------------------------------------------------------------
     # Rewind both captures (seek, no re-open)
@@ -176,7 +177,7 @@ def process_sequence(folder, seq_idx, total_seqs, global_start):
     # ------------------------------------------------------------------
     # Read sequence metadata once (camera params, garment list)
     # ------------------------------------------------------------------
-    info     = reader.read_info(sample)
+    info = reader.read_info(sample)
     garments = list(info['outfit'].keys())
 
     # Initialise renderer with camera parameters (constant per sequence)
@@ -187,7 +188,7 @@ def process_sequence(folder, seq_idx, total_seqs, global_start):
     # Pass 2: process only valid frames (mask not touching any border)
     # ------------------------------------------------------------------
     seq_start = time.time()
-    n_kept    = 0
+    n_kept = 0
 
     for frame_idx, at_edge in enumerate(at_edge_flags):
         ok_rgb, rgb = rgb_cap.read()
@@ -211,16 +212,16 @@ def process_sequence(folder, seq_idx, total_seqs, global_start):
             _V = reader.read_garment_vertices(sample, garment, frame_idx)
             _F = reader.read_garment_topology(sample, garment)
             _F = quads2tris(_F)
-            F  = np.concatenate((F, _F + V.shape[0]), axis=0)
-            V  = np.concatenate((V, _V), axis=0)
+            F = np.concatenate((F, _F + V.shape[0]), axis=0)
+            V = np.concatenate((V, _V), axis=0)
 
         render.set_mesh(V, F)
-        raw   = render.render()
+        raw = render.render()
         depth = np.array(raw).squeeze()
         depth[depth >= MAX_DEPTH - 1] = 0.0
 
         # Crop
-        rgb_crop   = crop_image(rgb,   cx, cy, half)
+        rgb_crop = crop_image(rgb,   cx, cy, half)
         depth_crop = crop_image(depth, cx, cy, half)
 
         # Save
@@ -236,12 +237,12 @@ def process_sequence(folder, seq_idx, total_seqs, global_start):
     # ------------------------------------------------------------------
     # Progress print with timing and ETA
     # ------------------------------------------------------------------
-    seq_elapsed   = time.time() - seq_start
+    seq_elapsed = time.time() - seq_start
     total_elapsed = time.time() - global_start
-    seqs_done     = seq_idx + 1
-    seqs_left     = total_seqs - seqs_done
-    avg_per_seq   = total_elapsed / seqs_done
-    eta           = avg_per_seq * seqs_left
+    seqs_done = seq_idx + 1
+    seqs_left = total_seqs - seqs_done
+    avg_per_seq = total_elapsed / seqs_done
+    eta = avg_per_seq * seqs_left
 
     print(
         f'  [{seqs_done:3d}/{total_seqs}] {sample} | '
@@ -262,8 +263,8 @@ all_folders = sorted(
 )
 
 train_folders = all_folders[:128]    # 00001-00152
-val_folders   = all_folders[128:144] # 00153-00168
-test_folders  = all_folders[144:]    # 00169-00185
+val_folders = all_folders[128:144]  # 00153-00168
+test_folders = all_folders[144:]    # 00169-00185
 
 
 def write_txt(path, names):
@@ -291,10 +292,10 @@ if __name__ == '__main__':
 
     train_names = run_split('training',   train_folders, global_start,
                             offset=0)
-    val_names   = run_split('validation', val_folders,   global_start,
-                            offset=len(train_folders))
-    test_names  = run_split('test',       test_folders,  global_start,
-                            offset=len(train_folders) + len(val_folders))
+    val_names = run_split('validation', val_folders,   global_start,
+                          offset=len(train_folders))
+    test_names = run_split('test',       test_folders,  global_start,
+                           offset=len(train_folders) + len(val_folders))
 
     write_txt(os.path.join(OUT_DIR, 'train.txt'),      train_names)
     write_txt(os.path.join(OUT_DIR, 'validation.txt'), val_names)
