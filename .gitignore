@@ -2,9 +2,9 @@ cloth3d/data
 cloth3d/Samples
 cloth3d++_subset
 .venv
-
-
-
+preprocessed_data
+preprocessed_data.zip
+resized_data
 
 
 
