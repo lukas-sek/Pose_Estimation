@@ -4,6 +4,7 @@ cloth3d++_subset
 .venv
 preprocessed_data
 preprocessed_data.zip
+runs/
 resized_data
 
 
