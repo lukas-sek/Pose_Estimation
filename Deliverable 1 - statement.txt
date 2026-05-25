@@ -1,0 +1,74 @@
+Deliverable 1 - CNN architecture design
+● The goal is to learn how to design and train CNN networks to maximize mAP,
+● The task is the multi-label classification on the Pascal VOC 2012 dataset,
+● You can use the given code in the practical session as your base code.
+○ Or reimplement it with your desired library (e.g. pytorch)
+Evaluation Metric
+● Primary:
+○ Mean Average Precision (mAP) (VOC-style)
+● Secondary:
+○ Per-class AP and confusion matrix
+○ Inference time (ms/image)
+○ Model size (MB)
+
+Deliverable 1 - Tasks
+1- Analyze the dataset for the distribution of the labels by:
+a. Counting the objects;
+b. Counting the images, that is no matter how many objects of the same label appear on the
+image, all counts 1;
+c. Mean and variance of the area ratio (dividing object area to image area) of objects per label.
+You can use object bounding box to compute the area.
+
+Deliverable 1 - Tasks
+2- Train a baseline CNN: implement VOC 2012 data loader and encode labels as
+multi-hot vectors
+● Architecture: ResNet-18
+● Pretrained on ImageNet
+● Loss: BCEWithLogitsLoss
+● Optimizer: Adam
+● Minimal augmentation (resize + normalize)
+
+Deliverable 1 - Tasks
+3- Architecture comparison: study accuracy vs efficiency trade-offs
+● Same augmentation, optimizer, and training schedule as baseline
+● Architectures to compare: ResNet-18, ResNet-50, MobileNetV3-Large, EfficientNet-B0
+Questions:
+● Does a deeper model always help?
+● Which model gives best mAP / GPU-hour?
+● Which struggles most with small objects?
+● What about overfitting?
+Select the best architecture and use it for the next experiments.
+
+Deliverable 1 - Tasks
+4- Transfer learning strategies:
+● Train everything from scratch
+● Freeze the pretrained backbone and only train the head
+● Gradual unfreezing
+● Discriminative learning rates
+● Warm-up vs no warm-up
+Questions:
+● Analyze the convergence speed, overfitting and best strategy
+Select and use the best strategy for the next experiments.
+
+Deliverable 1 - Tasks
+5- Data and loss design: analyze class frequency and improve performance via better
+supervision
+● Data Augmentation
+○ Horizontal flip, color jitter, random resized crop, MixUp / CutMix
+● Dataset Imbalance
+○ Weighted BCE
+○ Focal Loss
+● Classification Head
+○ Linear vs 2-layer MLP
+○ Dropout
+Questions:
+● Analyze the class frequency vs. per class AP
+● Does the network converge with the same speed for all classes? Just brainstorm some mitigation ideas without any
+implementation or training
+Select and use the best strategy for the next experiments.
+
+Deliverable 1 - Tasks: Optional Bonus
+6- Further optional improvements:
+● Tune hyperparameters: learning rate and batch size
+● Train with mixed precision
+● Tune per-class threshold

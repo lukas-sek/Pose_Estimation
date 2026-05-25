@@ -1,0 +1,83 @@
+Deliverable 3 - Body and cloth depth estimation
+● Given an image of a person, cropped in the preprocessing (red rectangle), the
+goal is to estimate its corresponding depth image.
+
+Deliverable 3 - Body and cloth depth estimation
+● Dataset:
+○ A subset of the CLOTH3D++ dataset (https://chalearnlap.cvc.uab.cat/dataset/38/description/), could be downloaded from
+cloth3d++_subset.zip. The first 128 folders (00001 to 00152) must be used for training, the following 16 folders
+(00153 to 00168) for validation and the rest for test.
+○ You can play with the data, see data structure, visualize the 3D, render depth images and extract frames from
+the RGB videos using the given starter kit.
+○ If you use colab, the content of the starter kit must be uploaded to your google drive under “cloth3d” folder.
+● Preprocessing:
+○ Crop and save the images such that 1) the center of the subject and cropping to be the same, 2) leave 10px
+margin between cropping and subject boundaries, and 3) apply square cropping. NOTE: in some frames the
+subject may go out ot the scene. You can ignore these frames, for instance by counting the number of pixels in
+the mask and thresholding. The frames must be saved as .jpg under “image” folder with naming protocol
+“<folder name where the video is located>_<frame number>”
+○ Rendered depth must be cropped similar to RGB frame and saved as .npy (using numpy.save) under “depth”
+folder with the same naming protocol as RGB frames.
+○ The cropped images can be resized to 256x256 before saving them. Note that resizing the depth images could
+be tricky especially for the boundaries due to the effect of the zero background. You can compare nearest
+neighbor vs bilinear interpolation for resizing
+
+Deliverable 3 - Body and cloth depth estimation
+Metrics
+● Depth: RMSE
+● Normals: Mean angular error
+● Efficiency:
+○ FPS
+○ GPU memory
+○ Parameter count
+● Support your results with qualitative images
+
+Deliverable 3 - Body and cloth depth estimation
+1- Data preprocessing and baseline training:
+● Preprocess the data as stated before,
+● A simple baseline code is given for depth estimation using a light weight UNET architecture,
+● Explore:
+○ Resolution: 256 vs 384,
+○ Relevant data augmentation: shifting, horizontal flip, scaling/cropping, rotation, shearing
+○ Learning rate vs batch size importance
+Questions:
+● What makes monocular depth ill-posed?
+● Compare the results
+
+Deliverable 3 - Body and cloth depth estimation
+2- Transformer architectures for dense prediction:
+● Replace UNET with one of the following encoder architectures (pretrained on ImageNet):
+○ DeiT-Small ➡ simple and efficient
+○ Swin-Tiny ➡ hierarchical features
+○ EfficientFormer ➡ Transformer–CNN hybrid
+● Implement a decoder: simple bilinear upscaling vs lightweight feature pyramid network
+● Explore:
+○ Patch size 8 vs 16,
+○ Two transfer learning techniques that you learned in the first practice,
+Questions:
+● Do transformers preserve spatial detail?
+● Where do they fail vs CNNs?
+● What is more important in accuracy gains: transfer learning, patch size, decoder design, etc?
+● Discuss architecture diagram, memory vs speed, performance vs CNN, 
+
+Deliverable 3 - Body and cloth depth estimation
+3- weak supervision and geometry-aware losses:
+● Weak Supervision
+○ Ranking loss
+○ Normal consistency loss: implement a differentiable normal map layer derived from the network output vs GT depth
+and apply per pixel L1 loss
+● Geometry-aware
+○ Scale-invariant depth loss
+○ Body pose and depth multi-tasking: by the help of the starter kit, project 14 main SMPL joints to the image and
+use XY coordinates to train the multi-tasking model. To do so, create another decoder branch with the shape
+(Height, Width, 14) and apply soft-argmax on each output channel. Then, perform L1 loss between soft-argmax
+and GT XY coordinates. For the depth branch, use pixel-wise L1 loss between the GT and estimated depth.
+Questions:
+● Analyze and compare:
+○ Full supervision vs weak-only vs geometry aware,
+○ Failure modes: textured vs smooth areas, around edges, etc
+○ Stability vs accuracy
+○ Losses: convergence speed, overfitting, etc
+
+Deliverable 3 - Body and cloth depth estimation
+4- final integration: maximize the performance with what you’ve learned so far.

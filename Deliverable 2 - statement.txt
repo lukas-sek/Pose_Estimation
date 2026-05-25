@@ -1,0 +1,55 @@
+Deliverable 2 - fashion parsing
+What do you need to do in this task?
+● Fashion semantic segmentation
+On which dataset?
+● Fashionpedia: https://fashionpedia.github.io/home/
+Using which code base?
+● MMSegmentation: https://github.com/open-mmlab/mmsegmentation
+● Or any code you find more convenient
+
+Fashion parsing
+Hierarchical segmentation and
+attribute detection
+- We do not consider item
+parts and attributes in this
+practice,
+- Only the person in the
+middle has been annotated.
+- We use the validation set to
+report the results.
+
+Deliverable 2 - Tasks
+1- Analyze the dataset for the distribution of the labels by:
+● Counting the number of images per label,
+● Mean and variance for the pixel ratio per label:
+○ (# of pixels of label j in image i) / (# of pixels in image i),
+○ (# of pixels of label j in image i) / (# of foreground pixels in image i) ====> in this case
+we exclude the background
+
+Deliverable 2 - Tasks
+2- Choose three segmentation networks (justification is required) from the MMSegmentation
+implementations and finetune them on the fashionpedia dataset, as far as your resources allows,
+as following:
+● Tune the learning rate and batch size,
+● Apply the basic data augmentation like rotation, scaling, cropping, mosaic, cutout,
+mixup, etc,
+● Train based on 192 vs 384 px image resolution. Is there any relationship between the
+resolution and accuracy of each label?
+Select the best performing network and resolution and do the following:
+● Discard the large and overrepresented labels (check per label metric) and finetune the
+network with the same hyperparameters as above. Does this make any difference to
+the results of the remaining labels?
+
+Deliverable 2 - Tasks
+3- Train YOLO based instance segmentation and compare the results with the
+previous models. 
+
+Deliverable 2 - Tasks
+4- Without implementing any code or training, just discuss two possible ideas to
+improve the results. Back up your idea by referring to SOTA.
+NOTES for writing the report:
+● Justify your choices,
+● Thoroughly discuss the results both qualitatively and quantitatively,
+● Report the results using accuracy and mDice metrics excluding the
+background,
+● Your best performing network must show at least 20% mDice.
