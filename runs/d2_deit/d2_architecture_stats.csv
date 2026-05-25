@@ -1,0 +1,5 @@
+label,params,trainable,gmacs
+deit_p16_bilinear_full_finetune_lr1e-4_bs4,22943489,22943489,82.271760512
+deit_p16_fpn_full_finetune_lr1e-4_bs4,21959809,21959809,14.621863552
+deit_p8_bilinear_full_finetune_lr1e-4_bs4,23017217,23017217,82.272055424
+deit_p8_bilinear_frozen_backbone_lr1e-4_bs4,23017217,1254785,82.272055424

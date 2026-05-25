@@ -1,0 +1,25 @@
+{
+  "label": "d3_full_deit_p8_bs4_lr1e_4",
+  "regime": "full",
+  "status": "ok",
+  "val_rmse": 0.06945670408794563,
+  "test_rmse": 0.04941751372245699,
+  "normal_mae": 1.279843844286241,
+  "joint_l1_px": 162.6684368364289,
+  "fps": 61.23440869144261,
+  "params": 23018127,
+  "gpu_mb": 430.4873046875,
+  "patch_size": 8,
+  "batch_size": 4,
+  "lr": 0.0001,
+  "loss_weights": {
+    "depth_l1": 1.0,
+    "normal": 0.0,
+    "rank": 0.0,
+    "scale_inv": 0.0,
+    "joint_l1": 0.0
+  },
+  "checkpoint": "C:\\Users\\Daniel Hess\\Documents\\Master\\OR\\Pose_Estimation\\runs\\d3_losses\\checkpoints\\model_d3_full_deit_p8_bs4_lr1e_4.pth",
+  "history_path": "C:\\Users\\Daniel Hess\\Documents\\Master\\OR\\Pose_Estimation\\runs\\d3_losses\\histories\\hist_d3_full_deit_p8_bs4_lr1e_4.pkl",
+  "result_path": "C:\\Users\\Daniel Hess\\Documents\\Master\\OR\\Pose_Estimation\\runs\\d3_losses\\metrics\\result_d3_full_deit_p8_bs4_lr1e_4.json"
+}

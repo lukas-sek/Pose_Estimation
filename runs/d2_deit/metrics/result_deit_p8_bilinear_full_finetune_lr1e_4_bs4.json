@@ -1,0 +1,21 @@
+{
+  "label": "deit_p8_bilinear_full_finetune_lr1e-4_bs4",
+  "status": "ok",
+  "val_rmse": 0.0734669749923368,
+  "test_rmse": 0.05372029767138801,
+  "normal_mae": 1.0152977444613658,
+  "fps": 61.51556728934143,
+  "params": 23017217,
+  "trainable_params": 23017217,
+  "gpu_mb": 425.5302734375,
+  "img_size": 256,
+  "decoder": "bilinear",
+  "patch_size": 8,
+  "transfer": "full_finetune",
+  "pretrained": true,
+  "lr": 0.0001,
+  "batch_size": 4,
+  "checkpoint": "C:\\Users\\Daniel Hess\\Documents\\Master\\OR\\Pose_Estimation\\runs\\d2_deit\\checkpoints\\model_deit_p8_bilinear_full_finetune_lr1e_4_bs4.pth",
+  "history_path": "C:\\Users\\Daniel Hess\\Documents\\Master\\OR\\Pose_Estimation\\runs\\d2_deit\\histories\\hist_deit_p8_bilinear_full_finetune_lr1e_4_bs4.pkl",
+  "result_path": "C:\\Users\\Daniel Hess\\Documents\\Master\\OR\\Pose_Estimation\\runs\\d2_deit\\metrics\\result_deit_p8_bilinear_full_finetune_lr1e_4_bs4.json"
+}

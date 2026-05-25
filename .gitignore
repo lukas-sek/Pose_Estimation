@@ -4,7 +4,14 @@ cloth3d++_subset
 .venv
 preprocessed_data
 preprocessed_data.zip
-runs/
+# Experiment outputs: keep lightweight result artifacts, ignore large/generated binaries.
+runs/**/checkpoints/
+runs/**/histories/
+runs/**/joints_2d/
+runs/**/*.pth
+runs/**/*.pt
+runs/**/*.pkl
+runs/**/*.npz
 resized_data
 
 

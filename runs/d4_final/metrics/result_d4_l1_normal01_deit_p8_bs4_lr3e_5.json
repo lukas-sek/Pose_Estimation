@@ -1,0 +1,29 @@
+{
+  "label": "d4_l1_normal01_deit_p8_bs4_lr3e_5",
+  "run_name": "l1_normal01",
+  "status": "ok",
+  "val_rmse": 0.06966694294680341,
+  "val_normal_mae": 1.5060044007237443,
+  "val_joint_l1_px": 137.26543077104128,
+  "test_rmse": 0.04969261140705241,
+  "normal_mae": 1.2737335081567687,
+  "joint_l1_px": 133.55077799529545,
+  "fps": 61.53721243077185,
+  "params": 23018127,
+  "gpu_mb": 520.27001953125,
+  "patch_size": 8,
+  "batch_size": 4,
+  "lr": 3e-05,
+  "epochs": 4,
+  "init_checkpoint": "C:\\Users\\Daniel Hess\\Documents\\Master\\OR\\Pose_Estimation\\runs\\d3_losses\\checkpoints\\model_d3_full_deit_p8_bs4_lr1e_4.pth",
+  "loss_weights": {
+    "depth_l1": 1.0,
+    "normal": 0.1,
+    "rank": 0.0,
+    "scale_inv": 0.0,
+    "joint_l1": 0.0
+  },
+  "checkpoint": "C:\\Users\\Daniel Hess\\Documents\\Master\\OR\\Pose_Estimation\\runs\\d4_final\\checkpoints\\model_d4_l1_normal01_deit_p8_bs4_lr3e_5.pth",
+  "history_path": "C:\\Users\\Daniel Hess\\Documents\\Master\\OR\\Pose_Estimation\\runs\\d4_final\\histories\\hist_d4_l1_normal01_deit_p8_bs4_lr3e_5.pkl",
+  "result_path": "C:\\Users\\Daniel Hess\\Documents\\Master\\OR\\Pose_Estimation\\runs\\d4_final\\metrics\\result_d4_l1_normal01_deit_p8_bs4_lr3e_5.json"
+}

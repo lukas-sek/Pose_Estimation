@@ -1,0 +1,21 @@
+{
+  "label": "deit_p8_bilinear_frozen_backbone_lr1e-4_bs4",
+  "status": "ok",
+  "val_rmse": 0.09495941718788443,
+  "test_rmse": 0.07220889710820223,
+  "normal_mae": 1.5894680285479097,
+  "fps": 61.08108693914041,
+  "params": 23017217,
+  "trainable_params": 1254785,
+  "gpu_mb": 336.3720703125,
+  "img_size": 256,
+  "decoder": "bilinear",
+  "patch_size": 8,
+  "transfer": "frozen_backbone",
+  "pretrained": true,
+  "lr": 0.0001,
+  "batch_size": 4,
+  "checkpoint": "C:\\Users\\Daniel Hess\\Documents\\Master\\OR\\Pose_Estimation\\runs\\d2_deit\\checkpoints\\model_deit_p8_bilinear_frozen_backbone_lr1e_4_bs4.pth",
+  "history_path": "C:\\Users\\Daniel Hess\\Documents\\Master\\OR\\Pose_Estimation\\runs\\d2_deit\\histories\\hist_deit_p8_bilinear_frozen_backbone_lr1e_4_bs4.pkl",
+  "result_path": "C:\\Users\\Daniel Hess\\Documents\\Master\\OR\\Pose_Estimation\\runs\\d2_deit\\metrics\\result_deit_p8_bilinear_frozen_backbone_lr1e_4_bs4.json"
+}

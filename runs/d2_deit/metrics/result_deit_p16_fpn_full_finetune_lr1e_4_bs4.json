@@ -1,0 +1,21 @@
+{
+  "label": "deit_p16_fpn_full_finetune_lr1e-4_bs4",
+  "status": "ok",
+  "val_rmse": 0.0903705379831515,
+  "test_rmse": 0.06914170286023537,
+  "normal_mae": 1.2879851884668185,
+  "fps": 93.44577297020079,
+  "params": 21959809,
+  "trainable_params": 21959809,
+  "gpu_mb": 290.4111328125,
+  "img_size": 256,
+  "decoder": "fpn",
+  "patch_size": 16,
+  "transfer": "full_finetune",
+  "pretrained": true,
+  "lr": 0.0001,
+  "batch_size": 4,
+  "checkpoint": "C:\\Users\\Daniel Hess\\Documents\\Master\\OR\\Pose_Estimation\\runs\\d2_deit\\checkpoints\\model_deit_p16_fpn_full_finetune_lr1e_4_bs4.pth",
+  "history_path": "C:\\Users\\Daniel Hess\\Documents\\Master\\OR\\Pose_Estimation\\runs\\d2_deit\\histories\\hist_deit_p16_fpn_full_finetune_lr1e_4_bs4.pkl",
+  "result_path": "C:\\Users\\Daniel Hess\\Documents\\Master\\OR\\Pose_Estimation\\runs\\d2_deit\\metrics\\result_deit_p16_fpn_full_finetune_lr1e_4_bs4.json"
+}
