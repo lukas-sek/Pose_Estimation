@@ -24,9 +24,7 @@ import time
 import cv2
 import numpy as np
 
-# ---------------------------------------------------------------------------
-# Path setup — add DataReader to sys.path so its relative imports work
-# ---------------------------------------------------------------------------
+
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 DATAREADER_DIR = os.path.join(SCRIPT_DIR, 'cloth3d', 'DataReader')
 sys.path.insert(0, os.path.join(SCRIPT_DIR, 'cloth3d'))
@@ -36,9 +34,7 @@ from DataReader.read import DataReader          # noqa: E402
 from DataReader.util import intrinsic, extrinsic  # noqa: E402
 from DataReader.depth_render import Render      # noqa: E402
 
-# ---------------------------------------------------------------------------
 # Configuration
-# ---------------------------------------------------------------------------
 SUBSET_DIR = os.path.join(SCRIPT_DIR, 'cloth3d++_subset')
 OUT_DIR = os.path.join(SCRIPT_DIR, 'preprocessed_data')
 IMAGE_DIR = os.path.join(OUT_DIR, 'image')
@@ -51,16 +47,16 @@ os.makedirs(OUT_DIR, exist_ok=True)
 os.makedirs(IMAGE_DIR, exist_ok=True)
 os.makedirs(DEPTH_DIR, exist_ok=True)
 
-# ---------------------------------------------------------------------------
+
 # DataReader — override SRC to point at the actual data location
-# ---------------------------------------------------------------------------
+
 reader = DataReader()
 reader.SRC = SUBSET_DIR + os.sep
 
 
-# ---------------------------------------------------------------------------
+
 # Helper: triangulate quad faces (required by the Render class)
-# ---------------------------------------------------------------------------
+
 def quads2tris(F):
     out = []
     for f in F:
@@ -72,10 +68,9 @@ def quads2tris(F):
     return np.array(out, np.int32)
 
 
-# ---------------------------------------------------------------------------
 # Helper: compute square crop parameters from a binary mask
 # Returns (cx, cy, half) where the crop is img[cy-half:cy+half, cx-half:cx+half]
-# ---------------------------------------------------------------------------
+
 def get_square_crop(mask, margin=CROP_MARGIN):
     rows = np.any(mask, axis=1)
     cols = np.any(mask, axis=0)
@@ -87,9 +82,8 @@ def get_square_crop(mask, margin=CROP_MARGIN):
     return cx, cy, half
 
 
-# ---------------------------------------------------------------------------
 # Helper: apply square crop (no resizing)
-# ---------------------------------------------------------------------------
+
 def crop_image(img, cx, cy, half):
     H, W = img.shape[:2]
     x1 = max(0, cx - half)
@@ -99,11 +93,11 @@ def crop_image(img, cx, cy, half):
     return img[y1:y2, x1:x2]
 
 
-# ---------------------------------------------------------------------------
+
 # Helper: scan segmentation video in pass 1.
 # Returns list of at_edge booleans — True if the mask touches any image border.
 # An empty mask is also treated as at_edge (subject fully out of frame).
-# ---------------------------------------------------------------------------
+
 def scan_segmentation(seg_cap):
     at_edge_flags = []
     while True:
@@ -125,9 +119,8 @@ def scan_segmentation(seg_cap):
     return at_edge_flags
 
 
-# ---------------------------------------------------------------------------
 # Timing helpers
-# ---------------------------------------------------------------------------
+
 def fmt_duration(seconds):
     """Format a duration in seconds as HH:MM:SS."""
     seconds = int(seconds)
@@ -136,10 +129,9 @@ def fmt_duration(seconds):
     return f'{h:02d}:{m:02d}:{s:02d}'
 
 
-# ---------------------------------------------------------------------------
 # Main per-sequence processing function
 # Returns list of saved frame name strings (e.g. "00001_42")
-# ---------------------------------------------------------------------------
+
 def process_sequence(folder, seq_idx, total_seqs, global_start):
     sample = folder
     saved = []
@@ -154,9 +146,9 @@ def process_sequence(folder, seq_idx, total_seqs, global_start):
     rgb_cap = cv2.VideoCapture(rgb_path)
     seg_cap = cv2.VideoCapture(segm_path)
 
-    # ------------------------------------------------------------------
+    
     # Pass 1: scan segmentation video only to build edge-flag list
-    # ------------------------------------------------------------------
+   
     at_edge_flags = scan_segmentation(seg_cap)
 
     if not at_edge_flags:
@@ -168,15 +160,15 @@ def process_sequence(folder, seq_idx, total_seqs, global_start):
     n_total = len(at_edge_flags)
     n_valid = sum(1 for f in at_edge_flags if not f)
 
-    # ------------------------------------------------------------------
+    
     # Rewind both captures (seek, no re-open)
-    # ------------------------------------------------------------------
+   
     rgb_cap.set(cv2.CAP_PROP_POS_FRAMES, 0)
     seg_cap.set(cv2.CAP_PROP_POS_FRAMES, 0)
 
-    # ------------------------------------------------------------------
+   
     # Read sequence metadata once (camera params, garment list)
-    # ------------------------------------------------------------------
+   
     info = reader.read_info(sample)
     garments = list(info['outfit'].keys())
 
@@ -184,9 +176,9 @@ def process_sequence(folder, seq_idx, total_seqs, global_start):
     render = Render(max_depth=MAX_DEPTH)
     render.set_image(640, 480, intrinsic(), extrinsic(info['camLoc']))
 
-    # ------------------------------------------------------------------
+   
     # Pass 2: process only valid frames (mask not touching any border)
-    # ------------------------------------------------------------------
+  
     seq_start = time.time()
     n_kept = 0
 
@@ -234,9 +226,9 @@ def process_sequence(folder, seq_idx, total_seqs, global_start):
     rgb_cap.release()
     seg_cap.release()
 
-    # ------------------------------------------------------------------
+   
     # Progress print with timing and ETA
-    # ------------------------------------------------------------------
+    
     seq_elapsed = time.time() - seq_start
     total_elapsed = time.time() - global_start
     seqs_done = seq_idx + 1
@@ -254,9 +246,9 @@ def process_sequence(folder, seq_idx, total_seqs, global_start):
     return saved
 
 
-# ---------------------------------------------------------------------------
+
 # Split folders
-# ---------------------------------------------------------------------------
+
 all_folders = sorted(
     f for f in os.listdir(SUBSET_DIR)
     if os.path.isdir(os.path.join(SUBSET_DIR, f))
@@ -284,9 +276,8 @@ def run_split(label, folders, global_start, offset=0):
     return names
 
 
-# ---------------------------------------------------------------------------
 # Run
-# ---------------------------------------------------------------------------
+
 if __name__ == '__main__':
     global_start = time.time()
 

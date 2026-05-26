@@ -15,9 +15,9 @@ import time
 import cv2
 import numpy as np
 
-# ---------------------------------------------------------------------------
+
 # Configuration
-# ---------------------------------------------------------------------------
+
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 PREPROCESSED_DIR = os.path.join(SCRIPT_DIR, 'preprocessed_data')
 RESIZED_DIR = os.path.join(SCRIPT_DIR, 'resized_data')
