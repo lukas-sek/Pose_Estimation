@@ -9,7 +9,6 @@ This project estimates body-and-cloth depth from cropped CLOTH3D++ RGB images an
 - PyTorch UNet and ImageNet-pretrained DeiT depth models
 - SMPL joint projection and multi-task depth/joint supervision
 - Reproducible preprocessing, resizing, metrics, checkpoints, and histories
-- Windows-friendly `pathlib` paths and zero-worker defaults
 
 ## Requirements
 
